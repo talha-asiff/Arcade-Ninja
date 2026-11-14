@@ -14,13 +14,23 @@ int main()
     Image naruto = LoadImage("assets/naruto.png");
     Image naruto1 = LoadImage("assets/narutoR1.png");
     Image naruto2 = LoadImage("assets/narutoR2.png");
+    Image narutoAttack1 = LoadImage("assets/narutoP1.png");
+    Image narutoAttack2 = LoadImage("assets/narutoP2.png");
+    Image narutoPunch1 = LoadImage("assets/narutoP3.png");
+    Image narutoPunch2 = LoadImage("assets/narutoP4.png");
     Texture2D narutoTex = LoadTextureFromImage(naruto);
     Texture2D narutoTex1 = LoadTextureFromImage(naruto1);
     Texture2D narutoTex2 = LoadTextureFromImage(naruto2);
+    Texture2D narutoFight1 = LoadTextureFromImage(narutoAttack1);
+    Texture2D narutoFight2 = LoadTextureFromImage(narutoAttack2);
+    Texture2D narutoPunchAttack1 = LoadTextureFromImage(narutoPunch1);
+    Texture2D narutoPunchAttack2 = LoadTextureFromImage(narutoPunch2);
+    
     int i = 0, j = 1;
     int p1x = 50;
     int p1y = 350;
     bool jumpP1 = false;
+    bool fallingP1 = false;
     Image animImage = LoadImageAnim("assets/background.gif", &animFrames);
     Texture2D logotex = LoadTextureFromImage(logo);
     Texture2D animTexture = LoadTextureFromImage(animImage);
@@ -101,13 +111,17 @@ int main()
 
             if(jumpP1){
                 if(p1y <= 200){
-                    p1y += 50;
-                    if(p1y >= 350){
-                        jumpP1 = false;
-                    }
+                    fallingP1 = true;
+                    jumpP1 = false;
                 } else {
                     p1y-=20;
 
+                }
+            }
+            if(fallingP1){
+                p1y += 50;
+                if(p1y >= 350){
+                    fallingP1 = false;
                 }
             }
             
@@ -120,7 +134,25 @@ int main()
                 } else {
                     DrawTexture(narutoTex2, p1x, p1y, WHITE);
                 } i++;
-            }  else {
+            } else if(IsKeyDown(KEY_R)){
+                if(i%10 == 0){
+                    j++;
+                }
+                if(j % 2 == 0){
+                    DrawTexture(narutoPunchAttack1, p1x, p1y, WHITE);
+                } else {
+                    DrawTexture(narutoPunchAttack2, p1x, p1y, WHITE);
+                } i++;
+            } else if(IsKeyDown(KEY_F)){
+                if(i%10 == 0){
+                    j++;
+                }
+                if(j % 2 == 0){
+                    DrawTexture(narutoFight1, p1x, p1y, WHITE);
+                } else {
+                    DrawTexture(narutoFight2, p1x, p1y, WHITE);
+                } i++;
+            } else {
                 DrawTexture(narutoTex, p1x, p1y, WHITE);
                 i = 0; j = 0;
             }

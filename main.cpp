@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <iostream>
+#pragma once
 using namespace std;
 
 int main()
@@ -10,6 +11,16 @@ int main()
     Music bgm1 = LoadMusicStream("audio/bg1.mp3");
     int animFrames = 0;
     Image logo = LoadImage("assets/logo.png");
+    Image naruto = LoadImage("assets/naruto.png");
+    Image naruto1 = LoadImage("assets/narutoR1.png");
+    Image naruto2 = LoadImage("assets/narutoR2.png");
+    Texture2D narutoTex = LoadTextureFromImage(naruto);
+    Texture2D narutoTex1 = LoadTextureFromImage(naruto1);
+    Texture2D narutoTex2 = LoadTextureFromImage(naruto2);
+    int i = 0, j = 1;
+    int p1x = 50;
+    int p1y = 350;
+    bool jumpP1 = false;
     Image animImage = LoadImageAnim("assets/background.gif", &animFrames);
     Texture2D logotex = LoadTextureFromImage(logo);
     Texture2D animTexture = LoadTextureFromImage(animImage);
@@ -78,6 +89,41 @@ int main()
                 EndDrawing(); continue;
             }
             DrawTexturePro(animTexture, (Rectangle){0.0f, 0.0f, (float)animTexture.width, (float)animTexture.height}, destRec, origin, 0.0f, WHITE);
+            if(IsKeyDown(KEY_D)){
+                p1x+=10;
+            }
+            if(IsKeyDown(KEY_A)){
+                p1x-=10;
+            }
+            if(IsKeyDown(KEY_SPACE)){
+                jumpP1 = true;
+            }
+
+            if(jumpP1){
+                if(p1y <= 200){
+                    p1y += 50;
+                    if(p1y >= 350){
+                        jumpP1 = false;
+                    }
+                } else {
+                    p1y-=20;
+
+                }
+            }
+            
+            if(IsKeyDown(KEY_D) || IsKeyDown(KEY_A)){
+                if(i%10 == 0){
+                    j++;
+                }
+                if(j % 2 == 0){
+                    DrawTexture(narutoTex1, p1x, p1y, WHITE);
+                } else {
+                    DrawTexture(narutoTex2, p1x, p1y, WHITE);
+                } i++;
+            }  else {
+                DrawTexture(narutoTex, p1x, p1y, WHITE);
+                i = 0; j = 0;
+            }
         }
         EndDrawing();
         if (colorFlag >= 100)
@@ -91,7 +137,6 @@ int main()
     UnloadTexture(animTexture);
     UnloadImage(logo);
     UnloadImage(animImage);
-
     CloseAudioDevice();
     CloseWindow();
 }

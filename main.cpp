@@ -18,6 +18,15 @@ int main()
     Image narutoAttack2 = LoadImage("assets/narutoP2.png");
     Image narutoPunch1 = LoadImage("assets/narutoP3.png");
     Image narutoPunch2 = LoadImage("assets/narutoP4.png");
+
+    Image sasuke = LoadImage("assets/sasuke.png");
+    Image sasuke1 = LoadImage("assets/sasukeR1.png");
+    Image sasuke2 = LoadImage("assets/sasukeR2.png");
+    Image sasukeAttack1 = LoadImage("assets/sasukeP1.png");
+    Image sasukeAttack2 = LoadImage("assets/sasukeP2.png");
+    Image sasukePunch1 = LoadImage("assets/sasukeP3.png");
+    Image sasukePunch2 = LoadImage("assets/sasukeP4.png");
+    
     Texture2D narutoTex = LoadTextureFromImage(naruto);
     Texture2D narutoTex1 = LoadTextureFromImage(naruto1);
     Texture2D narutoTex2 = LoadTextureFromImage(naruto2);
@@ -25,11 +34,24 @@ int main()
     Texture2D narutoFight2 = LoadTextureFromImage(narutoAttack2);
     Texture2D narutoPunchAttack1 = LoadTextureFromImage(narutoPunch1);
     Texture2D narutoPunchAttack2 = LoadTextureFromImage(narutoPunch2);
+
+    Texture2D sasukeTex = LoadTextureFromImage(sasuke);
+    Texture2D sasukeTex1 = LoadTextureFromImage(sasuke1);
+    Texture2D sasukeTex2 = LoadTextureFromImage(sasuke2);
+    Texture2D sasukeFight1 = LoadTextureFromImage(sasukeAttack1);
+    Texture2D sasukeFight2 = LoadTextureFromImage(sasukeAttack2);
+    Texture2D sasukePunchAttack1 = LoadTextureFromImage(sasukePunch1);
+    Texture2D sasukePunchAttack2 = LoadTextureFromImage(sasukePunch2);
     
     int i = 0, j = 1;
+    int x = 0, y = 1;
     int p1x = 50;
     int p1y = 350;
+    int p2x = 800;
+    int p2y = 350;
+    
     bool jumpP1 = false;
+    bool jumpP2 = false;
     bool fallingP1 = false;
     Image animImage = LoadImageAnim("assets/background.gif", &animFrames);
     Texture2D logotex = LoadTextureFromImage(logo);
@@ -100,17 +122,17 @@ int main()
             }
             DrawTexturePro(animTexture, (Rectangle){0.0f, 0.0f, (float)animTexture.width, (float)animTexture.height}, destRec, origin, 0.0f, WHITE);
             if(IsKeyDown(KEY_D)){
-                p1x+=10;
+                if(p1x <= p2x) p1x+=10;
             }
             if(IsKeyDown(KEY_A)){
-                p1x-=10;
+                if(p1x >= 0)p1x-=10;
             }
             if(IsKeyDown(KEY_SPACE)){
                 jumpP1 = true;
             }
 
             if(jumpP1){
-                if(p1y <= 200){
+                if(p1y <= 80){
                     fallingP1 = true;
                     jumpP1 = false;
                 } else {
@@ -154,6 +176,66 @@ int main()
                 } i++;
             } else {
                 DrawTexture(narutoTex, p1x, p1y, WHITE);
+                i = 0; j = 0;
+            }
+
+            //______________________________________________
+
+            if(IsKeyDown(KEY_L)){
+                if(p1x <= p2x) p1x+=10;
+            }
+            if(IsKeyDown(KEY_J)){
+                if(p1x >= 0)p1x-=10;
+            }
+            if(IsKeyDown(KEY_ENTER)){
+                jumpP2 = true;
+            }
+
+            if(jumpP2){
+                if(p1y <= 80){
+                    fallingP1 = true;
+                    jumpP2 = false;
+                } else {
+                    p1y-=20;
+
+                }
+            }
+            if(fallingP1){
+                p1y += 50;
+                if(p1y >= 350){
+                    fallingP1 = false;
+                }
+            }
+            
+            if(IsKeyDown(KEY_D) || IsKeyDown(KEY_A)){
+                if(i%10 == 0){
+                    j++;
+                }
+                if(j % 2 == 0){
+                    DrawTexture(sasukeTex1, p2x, p2y, WHITE);
+                } else {
+                    DrawTexture(sasukeTex2, p2x, p2y, WHITE);
+                } i++;
+            } else if(IsKeyDown(KEY_R)){
+                if(i%10 == 0){
+                    j++;
+                }
+                if(j % 2 == 0){
+                    DrawTexture(sasukePunchAttack1, p2x, p2y, WHITE);
+                } else {
+                    DrawTexture(sasukePunchAttack2, p2x, p2y, WHITE);
+                } i++;
+            } else if(IsKeyDown(KEY_F)){
+                if(i%10 == 0){
+                    j++;
+                }
+                if(j % 2 == 0){
+                    DrawTexture(sasukeFight1, p2x, p2y, WHITE);
+                } else {
+                    DrawTexture(sasukeFight2, p2x, p2y, WHITE);
+                } i++;
+            } else {
+                DrawTexture(sasukeTex, p2x, p2y, WHITE);
                 i = 0; j = 0;
             }
         }

@@ -53,6 +53,8 @@ int main()
     bool jumpP1 = false;
     bool jumpP2 = false;
     bool fallingP1 = false;
+    bool fallingP2 = false;
+    
     Image animImage = LoadImageAnim("assets/background.gif", &animFrames);
     Texture2D logotex = LoadTextureFromImage(logo);
     Texture2D animTexture = LoadTextureFromImage(animImage);
@@ -181,62 +183,62 @@ int main()
 
             //______________________________________________
 
-            if(IsKeyDown(KEY_L)){
-                if(p1x <= p2x) p1x+=10;
-            }
             if(IsKeyDown(KEY_J)){
-                if(p1x >= 0)p1x-=10;
+                if(p2x >= p1x) p2x-=10;
+            }
+            if(IsKeyDown(KEY_L)){
+                if(p2x <= 900)p2x+=10;
             }
             if(IsKeyDown(KEY_ENTER)){
                 jumpP2 = true;
             }
 
             if(jumpP2){
-                if(p1y <= 80){
-                    fallingP1 = true;
+                if(p2y <= 80){
+                    fallingP2 = true;
                     jumpP2 = false;
                 } else {
-                    p1y-=20;
+                    p2y-=20;
 
                 }
             }
-            if(fallingP1){
-                p1y += 50;
-                if(p1y >= 350){
-                    fallingP1 = false;
+            if(fallingP2){
+                p2y += 50;
+                if(p2y >= 350){
+                    fallingP2 = false;
                 }
             }
             
-            if(IsKeyDown(KEY_D) || IsKeyDown(KEY_A)){
-                if(i%10 == 0){
-                    j++;
+            if(IsKeyDown(KEY_L) || IsKeyDown(KEY_J)){
+                if(x%10 == 0){
+                    y++;
                 }
-                if(j % 2 == 0){
-                    DrawTexture(sasukeTex1, p2x, p2y, WHITE);
+                if(y % 2 == 0){
+                    DrawTextureEx(sasukeTex1, {(float)p2x, (float)p2y}, 0.0f, (float)narutoTex1.height / sasukeTex1.height, WHITE);
                 } else {
-                    DrawTexture(sasukeTex2, p2x, p2y, WHITE);
-                } i++;
-            } else if(IsKeyDown(KEY_R)){
-                if(i%10 == 0){
-                    j++;
+                    DrawTextureEx(sasukeTex2, {(float)p2x, (float)p2y}, 0.0f, (float)narutoTex2.height / sasukeTex2.height, WHITE);
+                } x++;
+            } else if(IsKeyDown(KEY_LEFT_BRACKET)){
+                if(x%10 == 0){
+                    y++;
                 }
-                if(j % 2 == 0){
-                    DrawTexture(sasukePunchAttack1, p2x, p2y, WHITE);
+                if(y % 2 == 0){
+                    DrawTextureEx(sasukePunchAttack1, {(float)p2x, (float)p2y}, 0.0f, (float)narutoPunchAttack1.height / sasukePunchAttack1.height, WHITE);
                 } else {
-                    DrawTexture(sasukePunchAttack2, p2x, p2y, WHITE);
-                } i++;
-            } else if(IsKeyDown(KEY_F)){
-                if(i%10 == 0){
-                    j++;
+                    DrawTextureEx(sasukePunchAttack2, {(float)p2x, (float)p2y}, 0.0f, (float)narutoPunchAttack2.height / sasukePunchAttack2.height, WHITE);
+                } x++;
+            } else if(IsKeyDown(KEY_RIGHT_BRACKET)){
+                if(x%10 == 0){
+                    y++;
                 }
-                if(j % 2 == 0){
-                    DrawTexture(sasukeFight1, p2x, p2y, WHITE);
+                if(y % 2 == 0){
+                    DrawTextureEx(sasukeFight1, {(float)p2x, (float)p2y}, 0.0f, (float)narutoFight1.height / sasukeFight1.height, WHITE);
                 } else {
-                    DrawTexture(sasukeFight2, p2x, p2y, WHITE);
-                } i++;
+                    DrawTextureEx(sasukeFight2, {(float)p2x, (float)p2y}, 0.0f, (float)narutoFight2.height / sasukeFight2.height, WHITE);
+                } x++;
             } else {
-                DrawTexture(sasukeTex, p2x, p2y, WHITE);
-                i = 0; j = 0;
+                DrawTextureEx(sasukeTex, {(float)p2x, (float)p2y}, 0.0f, (float)narutoTex.height / sasukeTex.height, WHITE);
+                x = 0; y = 0;
             }
         }
         EndDrawing();

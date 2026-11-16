@@ -5,16 +5,11 @@ A 2D local multiplayer, arcade-style fighting game inspired by *Naruto*, built f
 ---
 
 ## 📸 Screenshots
+![Gameplay Screenshot 1](https://i.ibb.co/WvpPy6vN/image.png)
 
-<p align="center">
-  <img src="https://i.ibb.co/PGz9hNGs/image.png" alt="Gameplay Screenshot 1" width="80%" />
-</p>
+![Gameplay Screenshot 2](https://i.ibb.co/0RbXd7y4/image.png)
 
-<p align="center">
-  <img src="https://i.ibb.co/gLK7B2Zq/image.png" alt="Gameplay Screenshot 2" width="48%" />
-  <img src="https://i.ibb.co/k2MCpt2d/image.png" alt="Gameplay Screenshot 3" width="48%" />
-</p>
-
+![Gameplay Screenshot 3](https://i.ibb.co/YBbs6xBr/image.png)
 ---
 
 ## 🛠️ Tech Stack

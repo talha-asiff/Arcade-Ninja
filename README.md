@@ -26,6 +26,7 @@ A 2D local multiplayer, arcade-style fighting game inspired by *Naruto*, built f
 * **2-Player Local Multiplayer:** Play head-to-head on a single keyboard as **Naruto (Player 1)** and **Sasuke (Player 2)**[cite: 1].
 * **Animated Title & Intro Sequence:** Features a custom developer splash screen, animated GIF stage backdrop, flashing start prompt, and a classic `"FIGHT!"` round transition[cite: 1].
 * **Dynamic Character Animations:** Distinct sprite states for idle stances, running, jumping, and two separate melee attack combos per character[cite: 1].
+* **Combat & Health:** Attacks damage opponents within melee range, health bars track each fighter, and the winner is announced when a fighter is defeated.
 * **Automatic Sprite Scaling:** Dynamically scales Sasuke's sprites relative to Naruto's sprite dimensions for consistent proportions on screen[cite: 1].
 * **Background Music:** Continuous looping soundtrack powered by Raylib's audio stream system[cite: 1].
 

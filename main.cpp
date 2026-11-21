@@ -1,5 +1,5 @@
 #include <raylib.h>
-#include <iostream>
+#include <cstdlib>
 #pragma once
 using namespace std;
 
@@ -47,9 +47,10 @@ int main()
     Texture2D sasukePunchAttack2 = LoadTextureFromImage(sasukePunch2);
     Texture2D sasukeDiedTex = LoadTextureFromImage(sasukeDied);
     
-    static int p1Health = 10;
-    static int p2Health = 10;
-    int dmgCtrl = 0;
+    int p1Health = 10;
+    int p2Health = 10;
+    int p1AttackCooldown = 0;
+    int p2AttackCooldown = 0;
     
     int i = 0, j = 1;
     int x = 0, y = 1;
@@ -131,6 +132,34 @@ int main()
                 EndDrawing(); continue;
             }
             DrawTexturePro(animTexture, (Rectangle){0.0f, 0.0f, (float)animTexture.width, (float)animTexture.height}, destRec, origin, 0.0f, WHITE);
+            if (p1Health <= 0 || p2Health <= 0)
+            {
+                if (p1Health <= 0)
+                {
+                    DrawTexture(narutoDiedTex, p1x, p1y, WHITE);
+                    DrawTextureEx(sasukeTex, {(float)p2x, (float)p2y}, 0.0f, (float)narutoTex.height / sasukeTex.height, WHITE);
+                }
+                else
+                {
+                    DrawTexture(narutoTex, p1x, p1y, WHITE);
+                    DrawTextureEx(sasukeDiedTex, {(float)p2x, (float)p2y}, 0.0f, (float)narutoTex.height / sasukeDiedTex.height, WHITE);
+                }
+
+                const char *winnerText = p1Health <= 0 ? "Sasuke won" : "Naruto won";
+                DrawText(winnerText, 1080 / 2 - MeasureText(winnerText, 50) / 2, 80, 50, YELLOW);
+                DrawText(TextFormat("Naruto: %d", p1Health), 40, 25, 24, WHITE);
+                DrawRectangle(40, 55, 300, 20, DARKGRAY);
+                DrawRectangle(40, 55, p1Health * 30, 20, GREEN);
+                DrawText(TextFormat("Sasuke: %d", p2Health), 740, 25, 24, WHITE);
+                DrawRectangle(740, 55, 300, 20, DARKGRAY);
+                DrawRectangle(740, 55, p2Health * 30, 20, RED);
+                EndDrawing();
+                continue;
+            }
+
+            if (p1AttackCooldown > 0) p1AttackCooldown--;
+            if (p2AttackCooldown > 0) p2AttackCooldown--;
+
             if(IsKeyDown(KEY_D)){
                 if(p1x <= p2x) p1x+=10;
             }
@@ -176,8 +205,10 @@ int main()
                     DrawTexture(narutoPunchAttack2, p1x, p1y, WHITE);
                 } i++;
 
-                if(p1x >= (p2x - 200) && (dmgCtrl % 10 == 0)){
-                    p2Health -= 1; cout << p2Health;
+                if(abs(p2x - p1x) <= 200 && p1AttackCooldown == 0 && p2Health > 0){
+                    p2Health -= 1;
+                    if (p2Health < 0) p2Health = 0;
+                    p1AttackCooldown = 20;
                 }
             } else if(IsKeyDown(KEY_F)){
                 if(i%10 == 0){
@@ -188,8 +219,10 @@ int main()
                 } else {
                     DrawTexture(narutoFight2, p1x, p1y, WHITE);
                 } i++;
-                if(p1x <= (p2x - 100 && dmgCtrl % 10 == 0)){
+                if(abs(p2x - p1x) <= 200 && p1AttackCooldown == 0 && p2Health > 0){
                     p2Health -= 2;
+                    if (p2Health < 0) p2Health = 0;
+                    p1AttackCooldown = 20;
                 }
             } else {
                 if(p1Health > 0){
@@ -246,8 +279,10 @@ int main()
                 } else {
                     DrawTextureEx(sasukePunchAttack2, {(float)p2x, (float)p2y}, 0.0f, (float)narutoPunchAttack2.height / sasukePunchAttack2.height, WHITE);
                 } x++;
-                if(p2x >= (p1x + 100)){
+                if(abs(p2x - p1x) <= 200 && p2AttackCooldown == 0 && p1Health > 0 && p2Health > 0){
                     p1Health -= 1;
+                    if (p1Health < 0) p1Health = 0;
+                    p2AttackCooldown = 20;
                 }
             } else if(IsKeyDown(KEY_RIGHT_BRACKET)){
                 if(x%10 == 0){
@@ -258,8 +293,10 @@ int main()
                 } else {
                     DrawTextureEx(sasukeFight2, {(float)p2x, (float)p2y}, 0.0f, (float)narutoFight2.height / sasukeFight2.height, WHITE);
                 } x++;
-                if(p2x >= (p1x + 100)){
+                if(abs(p2x - p1x) <= 200 && p2AttackCooldown == 0 && p1Health > 0 && p2Health > 0){
                     p1Health -= 2;
+                    if (p1Health < 0) p1Health = 0;
+                    p2AttackCooldown = 20;
                 }
             } else {
                 if(p2Health > 0){
@@ -269,7 +306,12 @@ int main()
                 }
                 x = 0; y = 0;
             }
-            dmgCtrl+=5;
+            DrawText(TextFormat("Naruto: %d", p1Health), 40, 25, 24, WHITE);
+            DrawRectangle(40, 55, 300, 20, DARKGRAY);
+            DrawRectangle(40, 55, p1Health * 30, 20, GREEN);
+            DrawText(TextFormat("Sasuke: %d", p2Health), 740, 25, 24, WHITE);
+            DrawRectangle(740, 55, 300, 20, DARKGRAY);
+            DrawRectangle(740, 55, p2Health * 30, 20, RED);
         }
         EndDrawing();
         if (colorFlag >= 100)
